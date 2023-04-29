@@ -238,6 +238,7 @@ static void pair_check(PSERVER_DATA server) {
 int main(int argc, char* argv[]) {
   CONFIGURATION config;
   config_parse(argc, argv, &config);
+  printf("Using port %d", config.port);
 
   if (config.action == NULL || strcmp("help", config.action) == 0)
     help();
