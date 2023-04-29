@@ -26,6 +26,7 @@ option(ENABLE_FFMPEG "Compile FFMPEG support" ON)
 option(ENABLE_X11 "Compile X11 support (requires ENABLE_FFMPEG)" ON)
 option(ENABLE_CEC "Compile CEC support" ON)
 option(ENABLE_PULSE "Compile PulseAudio support" ON)
+option(FORCE_BUILD_WITH_NO_VIDEO "Forces a build even though the no video output is detected" ON)
 
 pkg_check_modules(EVDEV REQUIRED libevdev)
 pkg_check_modules(UDEV REQUIRED libudev)
@@ -198,7 +199,11 @@ if (AMLOGIC_FOUND OR BROADCOM-OMX_FOUND OR MMAL_FOUND OR FREESCALE_FOUND OR ROCK
   list(APPEND MOONLIGHT_OPTIONS EMBEDDED)
 endif()
 
-if(NOT AMLOGIC_FOUND AND NOT BROADCOM-OMX_FOUND AND NOT MMAL_FOUND AND NOT FREESCALE_FOUND AND NOT ROCKCHIP_FOUND AND NOT SOFTWARE_FOUND)
+if (FORCE_BUILD_WITH_NO_VIDEO)
+  message(INFO "Warning: Forcing project to build even if no video output is detected.")
+endif()
+
+if(NOT AMLOGIC_FOUND AND NOT BROADCOM-OMX_FOUND AND NOT MMAL_FOUND AND NOT FREESCALE_FOUND AND NOT ROCKCHIP_FOUND AND NOT SOFTWARE_FOUND AND NOT FORCE_BUILD_WITH_NO_VIDEO)
   message(FATAL_ERROR "No video output available")
 endif()
 
