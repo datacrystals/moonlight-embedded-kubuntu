@@ -238,7 +238,6 @@ static void pair_check(PSERVER_DATA server) {
 int main(int argc, char* argv[]) {
   CONFIGURATION config;
   config_parse(argc, argv, &config);
-  printf("Using port %d", config.port);
 
   if (config.action == NULL || strcmp("help", config.action) == 0)
     help();
@@ -278,7 +277,7 @@ int main(int argc, char* argv[]) {
     config_file_parse(host_config_file, &config);
 
   SERVER_DATA server;
-  printf("Connecting to %s...\n", config.address);
+  printf("Connecting to %s:%d...\n", config.address, config.port);
 
   int ret;
   if ((ret = gs_init(&server, config.address, config.port, config.key_dir, config.debug_level, config.unsupported)) == GS_OUT_OF_MEMORY) {
